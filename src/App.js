@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import TodoList from "./components/TodoList";
+import { useDispatch } from "react-redux";
+import { addTodo } from "./redux/userSlice";
+const App = () => {
+     const dispatch = useDispatch();
+     const [newTask, setNewTask] = useState("");
+
+     const handleAddTask = () => {
+          if (newTask.trim() !== "") {
+               dispatch(addTodo(newTask));
+               setNewTask("");
+          }
+     };
+     return (
+          <div>
+               <input
+                    type="text"
+                    placeholder="Add a new task"
+                    value={newTask}
+                    onChange={(e) => setNewTask(e.target.value)}
+               />
+               <button onClick={handleAddTask}>Add</button>
+               <TodoList />
+          </div>
+     );
+};
 
 export default App;
